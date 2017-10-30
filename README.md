@@ -71,6 +71,10 @@ luamin.minify(luaCode); // 'a=(1+2-3)*4/5^6'
 // `minify` also accepts luaparse-compatible ASTs as its argument:
 var ast = luaparse.parse(luaCode, { 'scope': true });
 luamin.minify(ast); // 'a=(1+2-3)*4/5^6'
+
+// A second parameter optionally accepts user-defined variables to NOT minify
+var luaCode = 'function a(_FOO, bar) end';
+luamin.minify(luaCode, ['_FOO']); // 'function a(_FOO,b)end'
 ```
 
 ### Using the `luamin` binary

@@ -970,6 +970,30 @@
 				'minified': 'function a.b.c:d()end'
 			},
 			{
+				'description': 'FunctionDeclaration + OneUserDefinedVariable',
+				'original': 'function a(_ENV) end',
+				'minified': 'function a(_ENV)end',
+				'udVars': ['_ENV']
+			},
+			{
+				'description': 'FunctionDeclaration + OneUserDefinedVariable',
+				'original': 'function a(_ENV, p) end',
+				'minified': 'function a(_ENV,b)end',
+				'udVars': ['_ENV']
+			},
+			{
+				'description': 'FunctionDeclaration + MultipleUserDefinedVariables',
+				'original': 'function a(_ENV, _FOO) end',
+				'minified': 'function a(_ENV,_FOO)end',
+				'udVars': ['_ENV', '_FOO']
+			},
+			{
+				'description': 'FunctionDeclaration + MultipleUserDefinedVariables',
+				'original': 'function a(_ENV, _FOO, p) end',
+				'minified': 'function a(_ENV,_FOO,b)end',
+				'udVars': ['_ENV', '_FOO']
+			},
+			{
 				'description': 'FunctionDeclaration',
 				'original': 'function a(...) end',
 				'minified': 'function a(...)end'
@@ -2166,7 +2190,7 @@
 			} else {
 				forEach(items, function(item) {
 					equal(
-						minify(item.original),
+						minify(item.original, item.udVars),
 						item.minified,
 						item.description
 					);

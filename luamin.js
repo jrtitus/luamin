@@ -614,7 +614,7 @@
 		return result;
 	};
 
-	var minify = function(argument) {
+	var minify = function(argument, udGlobals) {
 		// `argument` can be a Lua code snippet (string)
 		// or a luaparse-compatible AST (object)
 		var ast = typeof argument == 'string'
@@ -636,6 +636,14 @@
 			});
 		} else {
 			throw Error('Missing required AST property: `globals`');
+		}
+
+		// Make sure user-defined global variable names aren't renamed
+		if (typeof(udGlobals) == 'object' && udGlobals.length > 0) {
+			for (var g = 0; g < udGlobals.length; g++) {
+				identifierMap[udGlobals[g]] = udGlobals[g];
+				identifiersInUse.push(udGlobals[g]);
+			}
 		}
 
 		return formatStatementList(ast.body);
